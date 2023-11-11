@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Page</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f4f4;
+            color: #333;
+            font-family: 'Arial', sans-serif;
+        }
+        .header {
+            color: #fff;
+            padding: 10px 0;
+        }
+        .header img {
+            height: 150px;
+        }
+        .search-form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,.1);
+        }
+        .search-results {
+            margin-top: 20px;
+        }
+        .list-group-item {
+            border: none;
+            border-bottom: 1px solid #eee;
+        }
+        .list-group-item:last-child {
+            border-bottom: none;
+        }
+        .list-group-item a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .list-group-item a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5 text-center header">
+        <img src="{{ url_for('static', filename='trilogy.png') }}" alt="Trilogy Logo" class="img-fluid">
+    </div>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Search the Dark Web</h2>
+        <div class="search-form">
+            <form action="/search" method="post">
+                <div class="form-group">
+                    <label for="keywords">Keywords:</label>
+                    <input type="text" class="form-control" id="keywords" name="keywords" required>
+                </div>
+                <div class="form-group">
+                    <label for="search_engine">Search Engine:</label>
+                    <select class="form-control" id="search_engine" name="search_engine">
+                        <option value="ahmia">Ahmia</option>
+                        <option value="excavator">Excavator</option>
+                        <option value="torch">Torch</option>
+                        <option value="deepsearch">Deepsearch</option>
+                        <option value="underdir">Underdir</option>
+                        <option value="onionland">Onionland</option>
+                        <option value="grams">Grams</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Search</button>
+            </form>
+        </div>
+
+        {% if entry_node and exit_node %}
+            <div class="search-results">
+                <h3>Relay Information</h3>
+                <p>Entry Node: {{ entry_node.nickname }} ({{ entry_node.address }})</p>
+                <p>Exit Node: {{ exit_node.nickname }} ({{ exit_node.address }})</p>
+            </div>
+        {% endif %}
+
+        {% if message %}
+            <div class="alert alert-info" role="alert">
+                {{ message }}
+            </div>
+        {% endif %}
+
+        {% if domains %}
+            <div class="search-results">
+                <h3>Search Results</h3>
+                <ul class="list-group">
+                {% for domain in domains %}
+                    <li class="list-group-item"><a href="{{ domain }}.ly">{{ domain }}</a></li>
+                {% endfor %}
+                </ul>
+            </div>
+        {% else %}
+            <p>No results found.</p>
+        {% endif %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
