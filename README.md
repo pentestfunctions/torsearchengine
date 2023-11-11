@@ -1,7 +1,7 @@
 # Web Search Application
 
 This is a Flask-based web application designed to perform searches on various search engines and parse the results. It's compatible with both Windows and Linux operating systems.
-
+- Might need curl on windows but that's about it.
 ## Features
 
 - Flask web server
